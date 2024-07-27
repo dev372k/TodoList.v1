@@ -57,7 +57,7 @@ public class TodoController : ControllerBase
         {
             var todo = todos.FirstOrDefault(x => x.Id == id);
             if (todo == null)
-                throw new Exception("There is no such todo.");
+                throw new Exception("There is no such todo found.");
 
             todos.Remove(todo);
             return Ok(new ResponseModel { Message = "Todo deleted successfully." });
