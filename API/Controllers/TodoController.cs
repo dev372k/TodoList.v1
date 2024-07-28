@@ -27,7 +27,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = todos.FirstOrDefault(x => x.Id == id);
+            var todo = todos.FirstOrDefault(_ => _.Id == id);
             return Ok(new ResponseModel { Data = todo });
         }
         catch (Exception ex)
@@ -66,7 +66,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = todos.FirstOrDefault(x => x.Id == id);
+            var todo = todos.FirstOrDefault(_ => _.Id == id);
             if (todo == null)
                 throw new Exception("There is no such todo found.");
 
@@ -103,7 +103,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = todos.FirstOrDefault(x => x.Id == id);
+            var todo = todos.FirstOrDefault(_ => _.Id == id);
             if (todo == null)
                 throw new Exception("There is no such todo found.");
 
