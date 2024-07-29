@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -7,13 +8,19 @@ namespace API.Controllers;
 [ApiController]
 public class TodoController : ControllerBase
 {
-    private static List<Todo> todos = new List<Todo>();
+    private ITodoService _todoService;
+
+    public TodoController(ITodoService todoService)
+    {
+        _todoService = todoService;
+    }
 
     [HttpGet]
     public IActionResult Get()
     {
         try
         {
+            var todos = _todoService.Get();
             return Ok(new ResponseModel { Data = todos });
         }
         catch (Exception ex)
@@ -27,7 +34,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = todos.FirstOrDefault(_ => _.Id == id);
+            var todo = _todoService.Get(id);
             return Ok(new ResponseModel { Data = todo });
         }
         catch (Exception ex)
@@ -41,19 +48,8 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = todos.Any();
-            if (todo == false)
-            {
-                request.Id = 1;
-            }
-            else
-            {
-                var todoList = todos.OrderByDescending(_ => _.Id).FirstOrDefault();
-                request.Id = todoList.Id + 1;
-            }
-
-            todos.Add(request);
-            return Ok(new ResponseModel { Message = "Todo added successfully.", Data = request });
+            var todo = _todoService.Post(request);
+            return Ok(new ResponseModel { Message = "Todo added successfully.", Data = todo });
         }
         catch (Exception ex)
         {
@@ -66,12 +62,22 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = todos.FirstOrDefault(_ => _.Id == id);
-            if (todo == null)
-                throw new Exception("There is no such todo found.");
-
-            todos.Remove(todo);
+            _todoService.Delete(id);
             return Ok(new ResponseModel { Message = "Todo deleted successfully." });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new ResponseModel { Status = false, Message = ex.Message });
+        }
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult Put(int id, Todo request)
+    {
+        try
+        {
+            var todo = _todoService.Put(id, request);
+            return Ok(new ResponseModel { Message = "Todo updated successfully.", Data = todo });
         }
         catch (Exception ex)
         {
@@ -97,23 +103,4 @@ public class TodoController : ControllerBase
     //        return Ok(new ResponseModel { Status = false, Message = ex.Message });
     //    }
     //}
-
-    [HttpPut("{id}")]
-    public IActionResult Put(int id, Todo request)
-    {
-        try
-        {
-            var todo = todos.FirstOrDefault(_ => _.Id == id);
-            if (todo == null)
-                throw new Exception("There is no such todo found.");
-
-            todo.Title = request.Title;
-            todo.Description = request.Description;
-            return Ok(new ResponseModel { Message = "Todo updated successfully." });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new ResponseModel { Status = false, Message = ex.Message });
-        }
-    }
 }
