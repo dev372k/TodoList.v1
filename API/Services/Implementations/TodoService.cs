@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.DTOs;
+using API.Models;
 using API.Services.Interfaces;
 
 namespace API.Services.Implementations;
@@ -6,22 +7,24 @@ namespace API.Services.Implementations;
 public class TodoService : ITodoService
 {
     private static List<Todo> todos = new List<Todo>();
-    public Todo Post(Todo dto)
+    public GetTodoDTO Post(AddTodoDTO dto)
     {
-        var todo = todos.Any();
-        if (todo == false)
-        {
-            dto.Id = 1;
-        }
-        else
-        {
-            var todoList = todos.OrderByDescending(_ => _.Id).FirstOrDefault();
-            dto.Id = todoList.Id + 1;
-        }
+        int id = GenerateId();
 
-        todos.Add(dto);
+        var todo = new Todo
+        {
+            Id = id,
+            Title = dto.Title,
+            Description = dto.Description,
+        };
+        todos.Add(todo);
 
-        return dto;
+        return new GetTodoDTO
+        {
+            Id = id,
+            Title = dto.Title,
+            Description = dto.Description,
+        };
     }
 
     public void Delete(int id)
@@ -33,18 +36,34 @@ public class TodoService : ITodoService
         todos.Remove(todo);
     }
 
-    public List<Todo> Get()
+    public List<GetTodoDTO> Get()
     {
-        return todos;
+        List<GetTodoDTO> todoList = new List<GetTodoDTO>();
+        foreach (var todo in todos)
+        {
+            var newTodo = new GetTodoDTO
+            {
+                Id = todo.Id,
+                Title = todo.Title,
+                Description = todo.Description,
+            };
+            todoList.Add(newTodo);
+        }
+        return todoList;
     }
 
-    public Todo Get(int id)
+    public GetTodoDTO Get(int id)
     {
-        var todo = todos.FirstOrDefault(_ => _.Id == id);
-        return todo;
+        var todo = todos.FirstOrDefault(_ => _.Id == id) ?? throw new Exception("There is no such todo found."); ;
+        return new GetTodoDTO
+        {
+            Id = todo.Id,
+            Title = todo.Title,
+            Description = todo.Description
+        };
     }
 
-    public Todo Put(int id, Todo dto)
+    public GetTodoDTO Put(int id, UpdateTodoDTO dto)
     {
         var todo = todos.FirstOrDefault(_ => _.Id == id);
         if (todo == null)
@@ -52,6 +71,26 @@ public class TodoService : ITodoService
 
         todo.Title = dto.Title;
         todo.Description = dto.Description;
-        return todo;
+
+        return new GetTodoDTO
+        {
+            Id = todo.Id,
+            Title = dto.Title,
+            Description = dto.Description
+        };
+    }
+
+    private int GenerateId()
+    {
+        var todo = todos.Any();
+        if (todo == false)
+        {
+            return 1;
+        }
+        else
+        {
+            var todoList = todos.OrderByDescending(_ => _.Id).FirstOrDefault();
+            return todoList.Id + 1;
+        }
     }
 }

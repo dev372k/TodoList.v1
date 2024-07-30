@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.DTOs;
+using API.Models;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,7 +45,7 @@ public class TodoController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post(Todo request)
+    public IActionResult Post(AddTodoDTO request)
     {
         try
         {
@@ -72,7 +73,7 @@ public class TodoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, Todo request)
+    public IActionResult Put(int id, UpdateTodoDTO request)
     {
         try
         {
