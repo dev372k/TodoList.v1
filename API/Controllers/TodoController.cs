@@ -21,8 +21,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todos = _todoService.Get();
-            return Ok(new ResponseModel { Data = todos });
+            return Ok(new ResponseModel { Data = _todoService.Get() });
         }
         catch (Exception ex)
         {
@@ -35,8 +34,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = _todoService.Get(id);
-            return Ok(new ResponseModel { Data = todo });
+            return Ok(new ResponseModel { Data = _todoService.Get(id) });
         }
         catch (Exception ex)
         {
@@ -49,8 +47,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = _todoService.Post(request);
-            return Ok(new ResponseModel { Message = "Todo added successfully.", Data = todo });
+            return Ok(new ResponseModel { Message = "Todo added successfully.", Data = _todoService.Post(request) });
         }
         catch (Exception ex)
         {
@@ -77,8 +74,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var todo = _todoService.Put(id, request);
-            return Ok(new ResponseModel { Message = "Todo updated successfully.", Data = todo });
+            return Ok(new ResponseModel { Message = "Todo updated successfully.", Data = _todoService.Put(id, request) });
         }
         catch (Exception ex)
         {
