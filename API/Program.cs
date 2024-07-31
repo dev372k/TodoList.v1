@@ -1,5 +1,8 @@
+using API.Data;
 using API.Services.Implementations;
 using API.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ITodoService, TodoService>();
+
+builder.Services.AddDbContextPool<ApplicationDBContext>(_
+    => _.UseSqlServer(builder.Configuration.GetConnectionString("cs")));
 
 
 var app = builder.Build();
