@@ -1,6 +1,6 @@
-﻿using API.DTOs;
-using API.Models;
-using API.Services.Interfaces;
+﻿using API.Models;
+using BL.DTOs;
+using BL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

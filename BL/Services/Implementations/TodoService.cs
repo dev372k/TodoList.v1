@@ -1,9 +1,9 @@
-﻿using API.Data;
-using API.Data.Entities;
-using API.DTOs;
-using API.Services.Interfaces;
+﻿using BL.DTOs;
+using BL.Services.Interfaces;
+using DL;
+using DL.Entities;
 
-namespace API.Services.Implementations;
+namespace BL.Services.Implementations;
 
 public class TodoService : ITodoService
 {
@@ -33,7 +33,7 @@ public class TodoService : ITodoService
 
     public GetTodoDTO Get(int id)
     {
-        var todo = _context.Todos.FirstOrDefault(_ => _.Id == id) 
+        var todo = _context.Todos.FirstOrDefault(_ => _.Id == id)
             ?? throw new Exception("There is no such todo found.");
 
         return new GetTodoDTO

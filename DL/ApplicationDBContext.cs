@@ -1,7 +1,7 @@
-﻿using API.Data.Entities;
+﻿using DL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Data;
+namespace DL;
 
 public class ApplicationDBContext : DbContext
 {

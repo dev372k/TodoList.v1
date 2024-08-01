@@ -1,7 +1,6 @@
-﻿using API.DTOs;
-using API.Models;
+﻿using BL.DTOs;
 
-namespace API.Services.Interfaces;
+namespace BL.Services.Interfaces;
 
 public interface ITodoService
 {
