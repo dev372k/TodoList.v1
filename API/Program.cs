@@ -1,3 +1,4 @@
+using API.Middlewares;
 using BL.Services.Implementations;
 using BL.Services.Interfaces;
 using DL;
@@ -29,7 +30,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<CustomMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -17,70 +17,27 @@ public class TodoController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
-    {
-        try
-        {
-            return Ok(new ResponseModel { Data = _todoService.Get() });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new ResponseModel { Status = false, Message = ex.Message });
-        }
-    }
+    public IActionResult Get() =>
+        Ok(new ResponseModel { Data = _todoService.Get() });
 
     [HttpGet("{id:int}")]
-    public IActionResult Get(int id)
-    {
-        try
-        {
-            return Ok(new ResponseModel { Data = _todoService.Get(id) });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new ResponseModel { Status = false, Message = ex.Message });
-        }
-    }
+    public IActionResult Get(int id) =>
+        Ok(new ResponseModel { Data = _todoService.Get(id) });
 
     [HttpPost]
-    public IActionResult Post(AddTodoDTO request)
-    {
-        try
-        {
-            return Ok(new ResponseModel { Message = "Todo added successfully.", Data = _todoService.Post(request) });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new ResponseModel { Status = false, Message = ex.Message });
-        }
-    }
+    public IActionResult Post(AddTodoDTO request) =>
+        Ok(new ResponseModel { Message = "Todo added successfully.", Data = _todoService.Post(request) });
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        try
-        {
-            _todoService.Delete(id);
-            return Ok(new ResponseModel { Message = "Todo deleted successfully." });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new ResponseModel { Status = false, Message = ex.Message });
-        }
+        _todoService.Delete(id);
+        return Ok(new ResponseModel { Message = "Todo deleted successfully." });
     }
 
     [HttpPut("{id}")]
     public IActionResult Put(int id, UpdateTodoDTO request)
-    {
-        try
-        {
-            return Ok(new ResponseModel { Message = "Todo updated successfully.", Data = _todoService.Put(id, request) });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new ResponseModel { Status = false, Message = ex.Message });
-        }
-    }
+        => Ok(new ResponseModel { Message = "Todo updated successfully.", Data = _todoService.Put(id, request) });
 
     //[HttpPut]
     //public IActionResult Put(Todo request)
