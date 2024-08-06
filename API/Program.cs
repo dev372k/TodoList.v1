@@ -3,7 +3,6 @@ using BL.Services.Implementations;
 using BL.Services.Interfaces;
 using DL;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +18,15 @@ builder.Services.AddScoped<ITodoService, TodoService>();
 builder.Services.AddDbContextPool<ApplicationDBContext>(_
     => _.UseSqlServer(builder.Configuration.GetConnectionString("cs")));
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy(name: "CorsPolicy", builder =>
+    {
+        builder.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
 
@@ -29,6 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseMiddleware<CustomMiddleware>();
 app.UseAuthorization();
