@@ -16,8 +16,7 @@ public class ConversionHelper
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error converting value '{value}' to type {typeof(T)}: {ex.Message}");   
-            return default(T);
+            return default(T)!;
         }
     }
 }
