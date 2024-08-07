@@ -15,13 +15,13 @@ public class CustomMiddleware
     {
         try
         {
-            var key = "644741f7-76db-457d-91e8-042e00bd8245";
+            //var key = "644741f7-76db-457d-91e8-042e00bd8245";
 
-            var apiKey = context.Request.Headers["X-API-KEY"].ToString();
-            if (apiKey == key)
-                await _next(context);
+            //var apiKey = context.Request.Headers["X-API-KEY"].ToString();
+            //if (apiKey == key)
+            await _next(context);
 
-            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            //context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
         }
         catch (Exception ex)
         {

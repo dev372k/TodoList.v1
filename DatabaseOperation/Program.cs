@@ -8,7 +8,7 @@ class Program
     static void Main(string[] args)
     {
         var sqlHelper = new SQLHelper();
-        string connectionString = "Server=sql.bsite.net\\MSSQL2016;Database=alishnadb_;User Id=alishnadb_;Password=pass123;Trusted_Connection=False;TrustServerCertificate=True";
+        string connectionString = "Server=sql.bsite.net\\MSSQL2016;Database=rentaride_;User Id=rentaride_;Password=pass123;Trusted_Connection=False;TrustServerCertificate=True";
 
         using (SqlConnection connection = new SqlConnection(connectionString))
         {

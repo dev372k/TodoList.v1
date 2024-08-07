@@ -14,7 +14,7 @@ public class TodoService : ITodoService
         _context = context;
     }
 
-    public List<GetTodoDTO> Get()
+    public List<GetTodoDTO> GetAll()
     {
         var todos = _context.Todos.ToList();
         List<GetTodoDTO> todoList = new List<GetTodoDTO>();
@@ -25,6 +25,25 @@ public class TodoService : ITodoService
                 Id = todo.Id,
                 Title = todo.Title,
                 Description = todo.Description,
+                UserId = todo.UserId
+            };
+            todoList.Add(newTodo);
+        }
+        return todoList;
+    }
+    
+    public List<GetTodoDTO> GetAll(int userid)
+    {
+        var todos = _context.Todos.Where(_ => _.UserId == userid).ToList();
+        List<GetTodoDTO> todoList = new List<GetTodoDTO>();
+        foreach (var todo in todos)
+        {
+            var newTodo = new GetTodoDTO
+            {
+                Id = todo.Id,
+                Title = todo.Title,
+                Description = todo.Description,
+                UserId = todo.UserId
             };
             todoList.Add(newTodo);
         }
@@ -40,7 +59,8 @@ public class TodoService : ITodoService
         {
             Id = todo.Id,
             Title = todo.Title,
-            Description = todo.Description
+            Description = todo.Description,
+            UserId = todo.UserId
         };
     }
 
@@ -50,6 +70,7 @@ public class TodoService : ITodoService
         {
             Title = dto.Title,
             Description = dto.Description,
+            UserId = dto.UserId
         };
 
         _context.Todos.Add(todo);
